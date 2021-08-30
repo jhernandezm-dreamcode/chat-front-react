@@ -7,8 +7,10 @@ import {ENDPT} from '../../services/services'
 let socket;
 const Home = () => {
   useEffect(()=>{
-    socket = io(ENDPT);
+    socket = io(ENDPT,{ transports : ['websocket'] });
+    console.log('----',ENDPT);
     return()=>{
+      console.log("finish")
       socket.emit('disconnect');
       socket.off();
     }
@@ -17,7 +19,7 @@ const Home = () => {
   const [room,setRoom] = useState('');
   const handleSubmit = e=>{
     e.preventDefault();
-    socket.emit('Create-room',room);
+    socket.emit('create-room',room);
     console.log(room);
     setRoom('');
   }
