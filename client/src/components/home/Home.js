@@ -10,8 +10,8 @@ const Home = () => {
     socket = io(ENDPT,{ transports : ['websocket'] });
     console.log('----',ENDPT);
     return()=>{
-      console.log("finish")
-      socket.emit('disconnect');
+      console.log("finish");
+      socket.emit('disconnected');
       socket.off();
     }
   },[ENDPT])
