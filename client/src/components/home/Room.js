@@ -3,9 +3,9 @@ import React from "react";
 function Room({name}) {
   return (
     <div>
-      <div class="card horizontal">
-        <div class="card-stacked">
-          <div class="card-content">
+      <div className="card horizontal">
+        <div className="card-stacked">
+          <div className="card-content">
             <p>
               {name}
             </p>

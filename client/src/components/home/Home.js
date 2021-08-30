@@ -1,10 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext,useState,useEffect } from "react";
 import { UserContext } from "../../UserContext";
 import { Link } from "react-router-dom";
 import RoomList from "./RoomList";
-
+import io, { Socket } from 'socket.io-client';
+import {ENDPT} from '../../services/services'
+let socket;
 const Home = () => {
+  useEffect(()=>{
+    socket = io(ENDPT);
+    return()=>{
+      socket.emit('disconnect');
+      socket.off();
+    }
+  },[ENDPT])
   const { user, setUser } = useContext(UserContext);
+  const [room,setRoom] = useState('');
+  const handleSubmit = e=>{
+    e.preventDefault();
+    socket.emit('Create-room',room);
+    console.log(room);
+    setRoom('');
+  }
   const rooms = [
     {
       name: "room1",
@@ -42,7 +58,7 @@ const Home = () => {
               <span className="card-title">
                 Welcome {user ? user.name : ""}
               </span>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="input-field col s12">
                     <input
@@ -50,6 +66,8 @@ const Home = () => {
                       id="room"
                       type="text"
                       className="validate"
+                      value={room}
+                      onChange={e => setRoom(e.target.value)}
                     />
                     <label htmlFor="room">Room</label>
                   </div>
