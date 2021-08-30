@@ -8,7 +8,7 @@ const Chat = () => {
     <div>
       <h1>Chat {JSON.stringify(user)}</h1>
       <Link to={"/"}>
-        <button>Go to home</button>
+        <button>Go to home a</button>
       </Link>
     </div>
   );
