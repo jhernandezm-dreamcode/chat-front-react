@@ -10,11 +10,16 @@ const Chat = () => {
   let { room_id, room_name } = useParams();
   const { user, setUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
   useEffect(() => {
-    console.log("uer-------",user)
     socket = io(ENDPT, { transports: ["websocket"] });
     socket.emit("join", { name: user.name, room_id, user_id: user.id });
   }, []);
+  useEffect(() => {
+    socket.on('message',message=>{
+      setMessages([...messages,message])
+    })
+  }, [messages])
   const sendMessage = (event) => {
     event.preventDefault();
     if (message) {
@@ -28,6 +33,7 @@ const Chat = () => {
         {room_id} {room_name}
       </div>
       <h1>Chat {JSON.stringify(user)}</h1>
+      <pre>{JSON.stringify(messages,null,'\t')}</pre>
       <form action="" onSubmit={sendMessage}>
         <input
           type="text"
