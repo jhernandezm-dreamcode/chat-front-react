@@ -6,10 +6,12 @@ import { ENDPT } from "../../services/services";
 let socket;
 
 const Chat = () => {
-  const { user, setUser } = useContext(UserContext);
+  
   let { room_id, room_name } = useParams();
+  const { user, setUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
   useEffect(() => {
+    console.log("uer-------",user)
     socket = io(ENDPT, { transports: ["websocket"] });
     socket.emit("join", { name: user.name, room_id, user_id: user.id });
   }, []);
@@ -17,7 +19,7 @@ const Chat = () => {
     event.preventDefault();
     if (message) {
       console.log(message);
-      socket.emit("set_message", message, room_id, () => setMessage(""));
+      socket.emit("send_message", message, room_id, () => setMessage(""));
     }
   };
   return (
